@@ -19,7 +19,7 @@ for imgBlob in imageBlobs:
 	recognised_text.append(text)
 
 print(recognised_text)'''	
-im = Image.open("a.jpg")
+im = Image.open("sample_test.jpg")
 text = pytesseract.image_to_string(im,lang = 'eng')
 
 print(text)
