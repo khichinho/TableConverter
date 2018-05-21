@@ -22,7 +22,7 @@ $ pip install numpy
 ```
 - Install OpenCV.
 ``` terminal
-$ sudo apt-get install python-opencv
+$ sudo apt-get install python3-opencv
 ```
 if this does not work build OpenCV from Source, as given [here](https://docs.opencv.org/3.4.1/d2/de6/tutorial_py_setup_in_ubuntu.html) .
 - Install Tesseract.
