@@ -3,7 +3,7 @@ import sys
 import cv2 as cv
 
 #importing image to the program
-img = cv.imread('table.jpg')
+img = cv.imread(sys.argv[1])
 #dispaying the image with title as Original Image
 cv.imshow('Original Image',img)
 
