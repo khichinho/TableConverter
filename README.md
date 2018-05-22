@@ -18,16 +18,16 @@ $ sudo apt install python3-pip
 ```
 - Install Numpy.
 ``` terminal
-$ pip install numpy
+$ pip3 install numpy
 ```
-- Install OpenCV.
+- Install OpenCV using root access.
 ``` terminal
 $ sudo apt-get install python3-opencv
 ```
 if this does not work build OpenCV from Source, as given [here](https://docs.opencv.org/3.4.1/d2/de6/tutorial_py_setup_in_ubuntu.html) .
 - Install Tesseract.
 ``` terminal
-$ pip install pytesseract
+$ pip3 install pytesseract
 ```
 ## Contributers
 - Hardik Khichi (2016CS50404)
