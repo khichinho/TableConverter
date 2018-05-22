@@ -68,9 +68,14 @@ text_part = cv.bitwise_xor(complete_grid,binary)
 cv.imshow('text_part',~text_part)
 
 
-#waiting for the key press of the keyboard to destroy all the windows which popped up during the runtime simulation
-cv.waitKey(0)
-cv.destroyAllWindows()
+#waiting for the Esc key press of the keyboard to destroy all the windows which popped up during the runtime simulation
+def close():
+	if cv.waitKey(0) == 27:
+		cv.destroyAllWindows()
+	else:
+		close()
+
+close()
 
 
 
