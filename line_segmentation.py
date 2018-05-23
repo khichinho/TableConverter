@@ -1,9 +1,10 @@
 import cv2
 import numpy as np
 import sys
+from PIL import Image
 
 # read img
-img = cv2.imread(sys.argv[1])
+img = cv2.imread('twc.png')
 
 # convert image to greyscale
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -50,6 +51,20 @@ for y in lowers:
     cv2.line(rotated, (0,y), (W, y), (0,255,0), 1)
 
 cv2.imshow("result.png", rotated)
+
+height, width = rotated.shape[:2]
+print(height)
+print(width)
+
+
+
+j=0
+while j<len(uppers):
+	crop1 = rotated[uppers[j]:lowers[j],0:width]
+	filename = "crop_%d.jpg"%j
+	cv2.imwrite(filename, crop1)
+	j=j+1
+#cv2.waitKey(0)
 
 cv2.waitKey(0)
 cv2.destroyAllWindows()
