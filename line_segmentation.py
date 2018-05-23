@@ -61,7 +61,7 @@ print(width)
 j=0
 while j<len(uppers):
 	crop1 = rotated[uppers[j]:lowers[j],0:width]
-	filename = "crop_%d.jpg"%j
+	filename = "crop_%d.tiff"%j
 	cv2.imwrite(filename, crop1)
 	j=j+1
 #cv2.waitKey(0)
