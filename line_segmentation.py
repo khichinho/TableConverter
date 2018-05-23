@@ -66,5 +66,10 @@ while j<len(uppers):
 	j=j+1
 #cv2.waitKey(0)
 
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+def close():
+	if cv2.waitKey(0) == 27:
+		cv2.destroyAllWindows()
+	else:
+		close()
+
+close()
