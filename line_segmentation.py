@@ -2,15 +2,13 @@ import cv2
 import numpy as np
 import sys
 
-## (1) read
+# read img
 img = cv2.imread(sys.argv[1])
 
-## (2) threshold
-
+# convert image to greyscale
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-th, threshed = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY_INV|cv2.THRESH_OTSU)
-
-################# This part is applicable only if rotation required to get text in minimum area #################
+#convert grayscale to binary
+th, threshed = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
 ## (3) minAreaRect on the nozeros
 pts = cv2.findNonZero(threshed)
 ret = cv2.minAreaRect(pts)
@@ -34,8 +32,16 @@ H,W = img.shape[:2]
 uppers = [y for y in range(H-1) if hist[y]<=th and hist[y+1]>th]
 lowers = [y for y in range(H-1) if hist[y]>th and hist[y+1]<=th]
 
-######################################################################################################################
-#setting colours of segmented lines with upper line as blue and lower line as green
+i=0
+while i < len(uppers):
+    if(lowers[i] - uppers[i] < 3):
+        del lowers[i]
+        del uppers[i]
+    i +=1
+
+print(uppers)
+print(lowers)
+
 rotated = cv2.cvtColor(rotated, cv2.COLOR_GRAY2BGR)
 for y in uppers:
     cv2.line(rotated, (0,y), (W, y), (255,0,0), 1)
