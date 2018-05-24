@@ -5,7 +5,7 @@ import sys
 import array
 from PIL import Image
 
-img = cv2.imread('intersections.jpg',0)
+img = cv2.imread(sys.argv[1],0)
 kernel = np.ones((5,5),np.uint8)
 dilation = cv2.dilate(img,kernel,iterations = 1)
 

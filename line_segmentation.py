@@ -65,12 +65,12 @@ while j< len(uppers):
     j+=1
 
 #saves tiff files
-j=0
-while j<len(uppers):
-	crop1 = rotated[uppers[j]:lowers[j],0:width]
-	filename = "crop_%d.tiff"%j
-	cv2.imwrite(filename, crop1)
-	j=j+1
+# j=0
+# while j<len(uppers):
+# 	crop1 = rotated[uppers[j]:lowers[j],0:width]
+# 	filename = "crop_%d.tiff"%j
+# 	cv2.imwrite(filename, crop1)
+# 	j=j+1
 #cv2.waitKey(0)
 
 def close():
