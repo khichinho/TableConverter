@@ -135,9 +135,6 @@ cv2.imwrite("yolo.jpg",newimg)
 cv2.imshow("newimg",newimg)
 
 
-
-
-
 cXarray.reverse()
 cYarray.reverse()
 print(len(cXarray))
@@ -152,13 +149,11 @@ print((cXarray2d))
 print((cYarray2d))
 
 
-
-
 im = text_part
 
 blocks = rows*cols
 block = [[text_part]*(cols+1)]*(rows+1)
-data = [["Empty"]*(cols+1)]*(rows+1)
+data = [[""]*(cols)]*(rows+1)
 
 for y in range(0,rows):
     for x in range(0,cols):
@@ -166,13 +161,9 @@ for y in range(0,rows):
         block[y][x] = im[cYarray2d[y][x]:cYarray2d[y+1][x+1],cXarray2d[y][x]:cXarray2d[y+1][x+1]]
         cv2.imshow("block" +" " + str(y)+ " " +str(x) + ".tiff",block[y][x])
         cv2.imwrite("block" +" " + str(y)+ " " +str(x) + ".tiff",block[y][x])
-        cv2.waitKey()
-
-print(data)
-
-
-
-
+        text = pytesseract.image_to_string(block[y][x],'eng')
+        data[y][x] = text
+    print(data[y])
 
 #waiting for the Esc key press of the keyboard to destroy all the windows which popped up during the runtime simulation
 def close():
@@ -182,6 +173,3 @@ def close():
 		close()
 
 close()
-
-
-
