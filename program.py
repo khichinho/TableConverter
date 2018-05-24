@@ -4,6 +4,7 @@ import cv2 as cv
 import cv2
 import imutils
 import array
+import pytesseract
 from PIL import Image
 
 #importing image to the program
@@ -141,16 +142,14 @@ cXarray.reverse()
 cYarray.reverse()
 print(len(cXarray))
 
+
 npXarray = np.array(cXarray)
 npYarray = np.array(cYarray)
 
 cXarray2d = npXarray.reshape(rows+1,cols+1)
 cYarray2d = npYarray.reshape(rows+1,cols+1)
-
-print(cXarray2d)
-print(cYarray2d)
-
-
+print((cXarray2d))
+print((cYarray2d))
 
 
 
@@ -159,28 +158,17 @@ im = text_part
 
 blocks = rows*cols
 block = [[text_part]*(cols+1)]*(rows+1)
-tst = [1]*(cols+1)
+data = [["Empty"]*(cols+1)]*(rows+1)
 
-print(block[1])
-
-x=0
-y=0
-while y< rows:
-    while x< cols:
-        block[y][x] = im[cYarray2d[y][x]:cYarray2d[y+1][x],cXarray2d[y][x]:cXarray2d[y][x+1]]
-        x=x+1
-    y=y+1
-
-x=0
-y=0
-while y< rows:
-    while x< cols:
-        cv2.imshow("block" + str(y)+" "+str(x),block[y][x])
+for y in range(0,rows):
+    for x in range(0,cols):
+        #crop_img = img[y:y+h, x:x+w]
+        block[y][x] = im[cYarray2d[y][x]:cYarray2d[y+1][x+1],cXarray2d[y][x]:cXarray2d[y+1][x+1]]
+        cv2.imshow("block" +" " + str(y)+ " " +str(x) + ".tiff",block[y][x])
+        cv2.imwrite("block" +" " + str(y)+ " " +str(x) + ".tiff",block[y][x])
         cv2.waitKey()
-        x=x+1
-    y=y+1
 
-
+print(data)
 
 
 
