@@ -1,6 +1,4 @@
-# RAVI-Summer-Internship
-
-## Table Accessibility
+# TableConverter
 A program that uses **image processing** to convert any image with tables into corresponding html format output
 
 It works on OCR(Optical Character Recognition) using [**OpenCV**](http://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_tutorials.html) and [**Tesseract**](https://code.google.com/archive/p/python-tesseract/) in Python to detect the table and text in image and extracts it into txt/html file.
