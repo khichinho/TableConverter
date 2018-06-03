@@ -37,10 +37,10 @@ def Find_Table_Cells_Using_Contoures(image):
 	# 2 points while matching on both side
 	for i in range(len(contours)):
 		if hierarchy[0][i][3] != -1:
-			mask = np.zeros(imgray.shape, np.uint8)
+			#mask = np.zeros(imgray.shape, np.uint8)
 			x, y, w, h = cv2.boundingRect(contours[i])
-			tempImage = im[y:y+h, x:x+w]
-			sp.imsave("./rough/" +str(count)+".png", tempImage)	#save the symbol image.
+			#tempImage = im[y:y+h, x:x+w]
+			#sp.imsave("./rough/" +str(count)+".png", tempImage)	#save the symbol image.
 			count = count + 1
 			if x not in row_set and x+1 not in row_set and x-1 not in row_set and x+2 not in row_set and x-2 not in row_set:
 				row_set.add(x)
@@ -64,7 +64,7 @@ def Find_Table_Cells_Using_Contoures(image):
 
 	for i in range(len(contours)):
 		if hierarchy[0][i][3] != -1:
-			mask = np.zeros(imgray.shape, np.uint8)
+			#mask = np.zeros(imgray.shape, np.uint8)
 			x, y, w, h = cv2.boundingRect(contours[i])
 			row1 = give_index(coloum_set,y)
 			row2 = give_index(coloum_set,y+h)
@@ -85,6 +85,82 @@ def Find_Table_Cells_Using_Contoures(image):
 	    writer.writerows(row_coloums)
 	    writer.writerows(attributes)
 
+# def sort_a_array_on_basis_of_increasing_y_coordinates(table):
+def cmp_last_name(a, b):
+	if cmp(a[0],b[0]) == 0:
+		return cmp(a[2],b[2])
+	else:
+		return cmp(a[0],b[0])
+
+def html_table_generator():
+	# Read data from row_coloumns.csv
+	row_set = []
+	coloum_set = []
+	table = []
+	with open("./rough" + "/row_coloums.csv") as File:
+		reader = csv.reader(File)
+		k = 0
+		for row in reader:
+			if (k > 1):
+				table.append(row)	
+				continue
+			if (k == 0):
+				coloum_set = coloum_set + row
+				k += 1
+			else:
+				if (k == 1):
+					row_set = row_set + row
+					k += 1
+
+	table = sorted(table, cmp=cmp_last_name)
+
+	# print table
+	
+	row_size = len(row_set)-1
+	col_size = len(coloum_set)-1
+
+	html_table = []
+	for i in range(row_size):
+		html_table.append([])
+
+	# print html_table
+	# print len(table)
+
+	for i in table:
+		# Calculation of rowspan and columnspan
+		tupl = [0,0]#tupl = [0,0,""]
+		index_row = int(i[0])
+		tupl[0] = int(i[1]) - int(i[0])
+		tupl[1] = int(i[3]) - int(i[2])
+		# strw = ""
+		# for k in range(i[1] - i[0]+1):
+			#for j in range(i[3] - i[2]+1):
+				#strw = strw + " " + virtual_ans[k+index_row][j+i[2]]
+		# tupl[2] = strw
+		html_table[index_row].append(tupl)
+
+	# print html_table
+
+	html_string = "<table>"
+	for row in html_table:
+		html_string += "<tr>"
+		for coloum in row:
+			html_string += "<td"
+			if coloum[0] != 0:
+				html_string += " rowspan=" +  "'" + str(coloum[0]+1) + "'"
+			if coloum[1] != 0:
+				html_string += " colspan=" +  "'" + str(coloum[1]+1) + "'"
+			html_string += ">"
+			#if (coloum[2].strip() == ""):
+			#	html_string += "N/A"	
+			#else:
+			#	html_string += coloum[2]
+			html_string += "</td>"
+		html_string += "</tr>"
+	html_string += "</table>"
+	print html_string
+
 
 image = sys.argv[1]
 Find_Table_Cells_Using_Contoures(image)
+html_table_generator()
