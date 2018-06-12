@@ -11,8 +11,6 @@ dilation = cv2.dilate(img,kernel,iterations = 1)
 
 cv2.imshow('dilation',dilation)
 
-
-
 blurred = cv2.GaussianBlur(dilation, (5, 5), 0)
 thresh = cv2.threshold(blurred, 60, 255, cv2.THRESH_BINARY)[1]
 
@@ -93,25 +91,6 @@ while i < (len(cnts)):
 print(cXarray[1])
 print(cXarray[2])
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # crop_img1 = im[4:36,67:229]
 # cv2.imshow('cropping1',crop_img1)
 
@@ -131,8 +110,6 @@ print(cXarray[2])
 # 	mp = mp + 1
 # 	p = p + cols + 1
 
-
-
 # mp = 0
 # for i in range(0,rows):
 # 	for j in range(0,cols):
@@ -150,9 +127,6 @@ print(cXarray[2])
 #     croparray[j] = crop1
 #     cv2.imshow("crop" + str(j),croparray[j])
 #     j+=1
-
-
-
 
 cv2.waitKey(0)
 cv2.destroyAllWindows()

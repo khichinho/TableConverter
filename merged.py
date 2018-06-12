@@ -1,22 +1,80 @@
-import sys
 import numpy as np
+import sys
+import cv2 as cv
 import cv2
-import scipy.misc as sp
-from sys import argv
-import os
-from array import *
-import csv
+import imutils
+import array
+import pytesseract
+from PIL import Image
 
-# To store bounding box of each cell in table
+#importing image to the program
+img = cv.imread(sys.argv[1])
+#dispaying the image with title as Original Image
+cv.imshow('Original Image',img)
 
-# Give index of value in list of contents around 2 values from exect position
+#converting image to greyscale mode
+gray = cv.cvtColor(img,cv.COLOR_BGR2GRAY)
+#displaying the image with title as greyscale image
+cv.imshow('greyscale image',gray)
+
+#converting greyscale image to binary using adaptiveThreshold method
+binary = cv.adaptiveThreshold(~gray,255,0,cv.THRESH_BINARY,15,-2)
+#displaying the binary image with title as binary
+cv.imshow('binary',binary)
+
+#making copies of binary image using .copy function of numpy library and assigning them to horizontal and vertical variables
+horizontal = np.copy(binary)
+vertical = np.copy(binary)
+
+#calculating columns of horizontal
+cols = horizontal.shape[1]
+#scaling columns by specific integer to control the display number of horizontal lines
+#and equating it to horizontal size as an integer since getStructuringElement requires integer value for horizontal length
+horizontalsize = cols//15
+
+#making a image which is a part of original image containing horizontal lines only
+horizontalStructure = cv.getStructuringElement(cv.MORPH_RECT,(horizontalsize,1))
+
+#Morphology Operations
+#applying erosion method over horizontal and horizontalStructure image
+horizontal = cv.erode(horizontal, horizontalStructure)
+#applying dilate method over horizontal and horizontalStructure image
+horizontal = cv.dilate(horizontal, horizontalStructure)
+
+#displaying horizontal lines as image with title as horizontal
+cv.imshow('horizontal',~horizontal)
+
+#calculating rows of vertical
+rows = vertical.shape[0]
+#scaling columns by specific integer to control the display number of vertical lines
+#and equating it to vertical size as an integer since getStructuringElement requires integer value for vertical length
+verticalsize = rows // 15
+
+#making a image which is a part of original image containing vertical lines only
+verticalStructure = cv.getStructuringElement(cv.MORPH_RECT, (1, verticalsize))
+
+#Morphology Operations
+#applying erosion method over vertical and verticalStructure image
+vertical = cv.erode(vertical, verticalStructure)
+#applying dilation method over vertical and verticalStructure image
+vertical = cv.dilate(vertical, verticalStructure)
+
+#displaying vertical lines as image with title as vertical
+cv.imshow('vertical',~vertical)
+
+#Adding horizontal and vertical lines to get a complete grid as a mask
+complete_grid = horizontal + vertical
+#displaying complete grid with the title as complete_grid
+cv.imshow('complete_grid',~complete_grid)
+cv2.imwrite("grid.png",~complete_grid)
+
 
 def give_index(list_l,value):
 	for i in range(len(list_l)):
 		if value == list_l[i] or value+1 == list_l[i] or value+2 == list_l[i] or value-1 == list_l[i] or value-2 == list_l[i]:
 			return i
 
-	return -1		
+	return -1
 
 # Find cells in table image store bounding boxes and position of row and coloums in image
 
@@ -27,7 +85,7 @@ def Find_Table_Cells_Using_Contoures(image):
 	imgray = cv2.cvtColor(im,cv2.COLOR_BGR2GRAY) #Convert colour image to gray scale.
 	ret,imgbinary = cv2.threshold(imgray, 180, 255, 0) #Threshold of binarization = 180
 	imgbinary = 255 - imgbinary # The image is binarised to an absolute black and white image.
-	_, contours, hierarchy= cv2.findContours(imgbinary,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)  
+	_, contours, hierarchy= cv2.findContours(imgbinary,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
 	count = 0
 
     # To detect positions of row and coloum boundries two lists
@@ -51,15 +109,15 @@ def Find_Table_Cells_Using_Contoures(image):
 				coloum_set.add(y)
 			if y+h not in coloum_set and y+h+1 not in coloum_set and y+h-1 not in coloum_set and y+h+2 not in coloum_set and y+h-2 not in coloum_set:
 				coloum_set.add(y+h)
-					
-	# Sort both of the array's		
-			
+
+	# Sort both of the array's
+
 	row_set = sorted(row_set)
 	coloum_set = sorted(coloum_set)
 
 	# Probable table size in ideal case
 
-	print "TABLE in page " + " : ", len(coloum_set)-1, "*", len(row_set)-1 
+	print "TABLE in page " + " : ", len(coloum_set)-1, "*", len(row_set)-1
 
 	# For each coutour find in how many rows and colums it is spanned and store it in attributes.
 
@@ -78,7 +136,7 @@ def Find_Table_Cells_Using_Contoures(image):
 	row_coloums = []
 	row_coloums.append((row_set))
 	row_coloums.append((coloum_set))
-			
+
 	# print attributes
 	myFile = open("./rough/" + "row_coloums.csv", 'w')
 	with myFile:
@@ -103,7 +161,7 @@ def html_table_generator():
 		k = 0
 		for row in reader:
 			if (k > 1):
-				table.append(row)	
+				table.append(row)
 				continue
 			if (k == 0):
 				coloum_set = coloum_set + row
@@ -116,7 +174,7 @@ def html_table_generator():
 	table = sorted(table, cmp=cmp_last_name)
 
 	# print table
-	
+
 	row_size = len(row_set)-1
 	col_size = len(coloum_set)-1
 
@@ -153,7 +211,7 @@ def html_table_generator():
 				html_string += " colspan=" +  "'" + str(coloum[1]+1) + "'"
 			html_string += ">"
 			#if (coloum[2].strip() == ""):
-			#	html_string += "N/A"	
+			#	html_string += "N/A"
 			#else:
 			#	html_string += coloum[2]
 			html_string += "</td>"
@@ -162,6 +220,3 @@ def html_table_generator():
 	print html_string
 
 
-image = sys.argv[1]
-Find_Table_Cells_Using_Contoures(image)
-html_table_generator()

@@ -79,7 +79,7 @@ cv.imshow('new binary',binary1) ######################################   horizon
 rows = vertical.shape[0]
 #scaling columns by specific integer to control the display number of vertical lines
 #and equating it to vertical size as an integer since getStructuringElement requires integer value for vertical length
-verticalsize = rows //40
+verticalsize = rows //20
 
 #making a image which is a part of original image containing vertical lines only
 verticalStructure = cv.getStructuringElement(cv.MORPH_RECT, (1, verticalsize))
@@ -111,15 +111,16 @@ binary =cv.dilate(binary,~verticalStructure)
 binary =cv.dilate(binary,~verticalStructure)
 binary =cv.dilate(binary,~verticalStructure)
 binary =cv.dilate(binary,~verticalStructure)
-binary =cv.dilate(binary,~verticalStructure)
-binary =cv.dilate(binary,~verticalStructure)
-binary =cv.dilate(binary,~verticalStructure)
-binary =cv.dilate(binary,~verticalStructure)
-binary =cv.dilate(binary,~verticalStructure)
-binary =cv.dilate(binary,~verticalStructure)
-binary =cv.dilate(binary,~verticalStructure)
-binary =cv.dilate(binary,~verticalStructure)
-binary =cv.dilate(binary,~verticalStructure)
+
+# binary =cv.dilate(binary,~verticalStructure)
+# binary =cv.dilate(binary,~verticalStructure)
+# binary =cv.dilate(binary,~verticalStructure)
+# binary =cv.dilate(binary,~verticalStructure)
+# binary =cv.dilate(binary,~verticalStructure)
+# binary =cv.dilate(binary,~verticalStructure)
+# binary =cv.dilate(binary,~verticalStructure)
+# binary =cv.dilate(binary,~verticalStructure)
+# binary =cv.dilate(binary,~verticalStructure)
 
 # binary =cv.dilate(binary,~horizontalStructure)
 
