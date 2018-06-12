@@ -60,7 +60,7 @@ cYarray2d = npYarray.reshape(rows+1,cols+1)
 #print(cXarray2d[0][1])
 #print(cYarray2d)
 # print(matrix)
-im = cv2.imread('twc.png')
+im = cv2.imread(sys.argv[2])
 
 crop_img = im[cYarray[0]:cYarray[0+6],cXarray[0]:cXarray[1]]
 cv2.imshow('cropping',crop_img)
