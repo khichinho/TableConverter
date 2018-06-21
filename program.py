@@ -66,6 +66,8 @@ cv.imshow('vertical',~vertical)
 complete_grid = horizontal + vertical
 #displaying complete grid with the title as complete_grid 
 cv.imshow('complete_grid',~complete_grid)
+cv2.imwrite("grid.png",~complete_grid)
+
 
 #making xor operation on compleate_grid and binary to get the text part of image only as a image format
 text_part = cv.bitwise_xor(complete_grid,binary)

@@ -100,7 +100,7 @@ cv.imshow('binaryv',binary)
 
 
 binary = cv.erode(binary,~verticalStructure)
-binary =cv.dilate(binary,~verticalStructure)
+binary =cv.dilate(binary,~verticalStructure,intersections=8)
 binary =cv.dilate(binary,~verticalStructure)
 
 binary =cv.dilate(binary,~verticalStructure)
