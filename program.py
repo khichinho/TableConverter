@@ -161,9 +161,9 @@ for y in range(0,rows):
     for x in range(0,cols):
         #crop_img = img[y:y+h, x:x+w]
         block[y][x] = im[cYarray2d[y][x]:cYarray2d[y+1][x+1],cXarray2d[y][x]:cXarray2d[y+1][x+1]]
-        cv2.imshow("block" +" " + str(y)+ " " +str(x) + ".tiff",block[y][x])
-        cv2.imwrite("block" +" " + str(y)+ " " +str(x) + ".tiff",block[y][x])
-        text = pytesseract.image_to_string(block[y][x],'eng')
+        # cv2.imshow("block" +" " + str(y)+ " " +str(x) + ".jpg",block[y][x])
+        cv2.imwrite("block" +" " + str(y)+ " " +str(x) + ".jpg",block[y][x])
+        text = pytesseract.image_to_string(block[y][x],lang = 'eng', config="--psm 7 --oem 0 --tessdata-dir './tessdata'")
         data[y][x] = text
     print(data[y])
 
