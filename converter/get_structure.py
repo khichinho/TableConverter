@@ -1,0 +1,1 @@
+# detects type of table then returns image of structure of table(without text)
