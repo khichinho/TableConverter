@@ -1,4 +1,4 @@
-
+	
 import io
 from google.cloud import vision
 from google.cloud.vision import types
@@ -55,7 +55,7 @@ def join_to_list(wordblock_listformat):
 vision_client = vision.ImageAnnotatorClient()
 file_name=sys.argv[1]
 with io.open(file_name,'rb') as image_file:
-    content = image_file.read()
+	content = image_file.read()
 
 image = types.Image(content=content)
 
